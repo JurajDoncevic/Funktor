@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="5.8.5" />
+    <PackageReference Include="FreeSpire.XLS" Version="11.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FunctionalExtensions.Base">
+      <HintPath>..\..\FunctionalExtensions.Base.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+﻿<Page x:Class="Funktor.WpfApp.Views.MappingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Funktor.WpfApp.Views"
+      xmlns:vms="clr-namespace:Funktor.WpfApp.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MappingPage"
+      ShowsNavigationUI="False">
+    <Page.DataContext>
+        <vms:MappingPageViewModel x:Name="MappingPageViewModel"></vms:MappingPageViewModel>
+    </Page.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" MinHeight="70"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <TextBox Text="{Binding MappingConfiguration.SourceFilePath }" Margin="100,10,10,0" VerticalAlignment="Top" IsReadOnly="True" HorizontalContentAlignment="Stretch"/>
+        <TextBox Text="{Binding MappingConfiguration.DestinationFilePath }" Grid.Column="1" Margin="100,10,10,0" VerticalAlignment="Top" IsReadOnly="False"/>
+        <Button Content="From file..." Command="{Binding SetSourceFilePathCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" MinWidth="60" />
+        <Button Content="To file..." Command="{Binding SetDestinationFilePathCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" MinWidth="60" />
+        <DataGrid ItemsSource="{ Binding MappingConfiguration.MappingItems }" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="From worksheet" Binding="{Binding Path=SourceWorksheet}" Width="1*"></DataGridTextColumn>
+                <!--<DataGridComboBoxColumn Header="From worksheet" Binding="{Binding Path=SourceWorksheet}" Width="1*"></DataGridComboBoxColumn>-->
+                <DataGridTextColumn Header="From field" Binding="{Binding Path=SourceField}" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Header="To worksheet" Binding="{Binding Path=DestinationWorksheet}" Width="1*"></DataGridTextColumn>
+                <!--<DataGridComboBoxColumn Header="To worksheet" Binding="{Binding Path=DestinationWorksheet}" Width="1*"></DataGridComboBoxColumn>-->
+                <DataGridTextColumn Header="To field" Binding="{Binding Path=DestinationField}" Width="1*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Start mapping" HorizontalAlignment="Left" Margin="40,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="100" MinWidth="80"/>
+        <Button Content="Load Excel files" Command="{ Binding LoadExcelFilesCommand }" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="100" MinWidth="80"/>
+
+    </Grid>
+</Page>
