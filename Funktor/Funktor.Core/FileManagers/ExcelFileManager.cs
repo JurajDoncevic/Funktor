@@ -16,8 +16,9 @@ namespace Funktor.Core.FileManagers
             _filePath = filePath;
         }
 
-        public abstract void OpenFile();
-        public abstract void SaveFile();
+        public abstract Result OpenFile();
+        public abstract Result CloseFile();
+        public abstract Result SaveFile();
 
         public abstract List<string> GetWorksheetNames();
         public abstract DataResult<string> GetFieldValue(string worksheetName, string fieldName);

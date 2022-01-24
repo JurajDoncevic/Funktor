@@ -15,13 +15,11 @@ using System.Windows.Input;
 
 namespace Funktor.WpfApp.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand CreateConfigurationCommand => new RelayCommand(_ => CreateConfiguration());
-        public ICommand OpenConfigurationCommand => new RelayCommand(_ => OpenConfigurationFile());
-        public ICommand SaveConfigurationCommand => new RelayCommand(_ => SaveConfigurationFile());
+        public ICommand OpenConfigurationCommand => new RelayCommand(async _ => await OpenConfigurationFile());
+        public ICommand SaveConfigurationCommand => new RelayCommand(async _ => await SaveConfigurationFile());
         public ICommand CloseApplicationCommand => new RelayCommand(_ => CloseApplication());
 
         public MappingPage CurrentPage { get; set; }
@@ -37,7 +35,7 @@ namespace Funktor.WpfApp.ViewModels
                 (MessageBox.Show("Do you want to save the current configuration?\nAll unsaved changes will be lost!", "Save configuration?", MessageBoxButton.YesNoCancel)
                     switch
                 {
-                    MessageBoxResult.Yes => (Action)(() => { SaveConfigurationFile(); CreateCleanConfiguration(); }), 
+                    MessageBoxResult.Yes => (Action)(async () => { await SaveConfigurationFile(); CreateCleanConfiguration(); }), 
                     MessageBoxResult.No => (Action)(() => { CreateCleanConfiguration(); })
                 }).Invoke();
             }

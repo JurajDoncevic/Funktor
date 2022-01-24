@@ -14,12 +14,16 @@ namespace Funktor.Core.Services
     public class MappingService
     {
         public static Result Map(ExcelFileManager sourceManager, ExcelFileManager destinationManager, MappingConfiguration mappingConfiguration) => 
-            AsResult(() =>
-                mappingConfiguration.ItemMappings
-                    .Map(mi => sourceManager.GetFieldValue(mi.SourceWorksheet, mi.SourceField)
-                                    .Bind(_ => destinationManager.SetFieldValue(mi.DestinationWorksheet, mi.DestinationField, _.Data))
-                        )
-                    .All(_ => _.IsSuccess)
-                );
+                sourceManager.OpenFile()
+                    .Bind(_ => destinationManager.OpenFile())
+                    .Bind(_ => mappingConfiguration.ItemMappings
+                                    .Map(mi => sourceManager.GetFieldValue(mi.SourceWorksheet, mi.SourceField)
+                                                            .Bind(_ => destinationManager.SetFieldValue(mi.DestinationWorksheet, mi.DestinationField, _.Data)))
+                                    .Aggregate((_1, _2) => _1.IsSuccess ? _2 : _1)
+                                    )
+                    .Bind(_ => sourceManager.SaveFile())
+                    .Bind(_ => destinationManager.SaveFile())
+                    .Bind(_ => sourceManager.CloseFile())
+                    .Bind(_ => destinationManager.CloseFile());
     }
 }
